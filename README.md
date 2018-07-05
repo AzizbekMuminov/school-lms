@@ -1,7 +1,7 @@
 # Hello everybody!
 
 This is repository of project **School LMS**.
-Our team: 
+Our :octocat: team: 
 
 _Aslkhon Khoshimkhojaev_
 
