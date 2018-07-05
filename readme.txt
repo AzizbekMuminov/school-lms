@@ -1,0 +1,6 @@
+Hello everybody!
+
+This is repository of project School LMS.
+Our team: Aslkhon Khoshimkhojaev
+Muso Ismailov
+Azizbek Muminov
