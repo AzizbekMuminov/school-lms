@@ -1,1 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>School LMS - $schoolNumber</title>
+
+	<!-- Bootstrap -->
+	<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+	<script src="bootstrap/js/jquery-1.11.3.min.js"></script>
+	<script src="bootstrap/js/bootstrap.js"></script>
+
+	<link href="main.css" rel="stylesheet">
+	<link href="icon.png" type="image/png" rel="shortcut icon">
+	
+</head>
+<body>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<img class="img-responsive img-new" src="icon.png" width="50%" height="50%" alt="logo"/>
+		</div>
+		
+		<!-- If user is teacher ID input group addon changes to tc -->
+		
+		<div class="panel-body">
+			<div class="form-group">
+				<div class="input-group top">
+  					<span class="input-group-addon" id="basic-addon1">st</span>
+  					<input type="text" class="form-control" placeholder="ID" aria-describedby="basic-addon1">
+				</div>
+  				<input class="form-control top" type="text" placeholder="Password">
+  				<select class="form-control top">
+  					<option>Student</option>
+  					<option>Teacher</option>
+  				</select>
+  				
+  				<!-- Now sign in button do nothing -->
+  				
+				<button type="button" class="btn btn-default center-block top">Sigh in</button>
+			</div>
+        </div>
+	</div>
+</body>
+</html>
 
