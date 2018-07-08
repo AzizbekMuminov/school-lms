@@ -23,9 +23,8 @@ public class User{
         this.userType = userType;
     }
 
-    public boolean login(String id, String password)
-    {
-        return id.equals(this.id) && password.equals(this.password);
+    public boolean login(String id, String password) {
+        return id != null && password != null && id.equals(this.id) && password.equals(this.password);
     }
 
     public String getId() {
