@@ -31,7 +31,7 @@
   					    <input type="text" class="form-control" placeholder="ID" aria-describedby="basic-addon1" name="id">
 				    </div>
   				        <input class="form-control top" type="password" placeholder="Password" name="password">
-  				        <select class="form-control top">
+  				        <select class="form-control top" id="selected_items" onchange="MyFunction()" name="user_type">
   					        <option>Student</option>
   					        <option>Teacher</option>
   				        </select>
@@ -43,6 +43,17 @@
 			</div>
         </div>
 	</div>
+	<script>
+       function MyFunction(){
+            var e = document.getElementById("selected_items");
+            var arr = ["ST", "TH"];
+            var i = document.getElementById("spanny");
+           	i.innerHTML = arr[e.selectedIndex];
+       }
+	</script>
+	<script>
+            myFunction();
+	</script>
 </body>
 </html>
 
