@@ -16,6 +16,7 @@
 
 </head>
 <body>
+
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<img class="img-responsive img-new" src="web-site/icon.png" width="50%" height="50%" alt="logo"/>
@@ -27,13 +28,13 @@
 			<div class="form-group">
 			    <form action="/Login" method="POST">
 				    <div class="input-group top">
-  					    <span class="input-group-addon" id="basic-addon1">st</span>
-  					    <input type="text" class="form-control" placeholder="ID" aria-describedby="basic-addon1" name="id">
+  					    <span class="input-group-addon" id="spanny">ST</span>
+  					    <input type="text" class="form-control" name="id" placeholder="ID" aria-describedby="basic-addon1" autofocus value=${username}>
 				    </div>
   				        <input class="form-control top" type="password" placeholder="Password" name="password">
   				        <select class="form-control top" id="selected_items" onchange="MyFunction()" name="user_type">
-  					        <option>Student</option>
-  					        <option>Teacher</option>
+  					        <option value="1">Student</option>
+  					        <option value="2">Teacher</option>
   				        </select>
   				
   				<!-- Now sign in button do nothing -->
@@ -43,6 +44,7 @@
 			</div>
         </div>
 	</div>
+
 	<script>
        function MyFunction(){
             var e = document.getElementById("selected_items");
