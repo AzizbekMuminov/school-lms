@@ -1,3 +1,4 @@
+import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -16,7 +17,6 @@ public class DatabaseManager {
         for (User u: users) {
             if(u.getUserType() == userType)
                 if(u.login(id, password)) {
-                    u.setClass_id(getGrade(u.getId()));
                     return u;
                 }
         }
@@ -24,7 +24,24 @@ public class DatabaseManager {
         return null;
     }
 
+    public static Homework getHomework(String subject_id) throws SQLException {
+        if(connection == null)
+            connect();
+
+        Homework w;
+        Statement st = connection.createStatement();
+        ResultSet set = st.executeQuery("SELECT *" +
+                "FROM Homeworks" +
+                "WHERE subject_id = \"" + subject_id + "\"");
+        w = new Homework(set.getString(1), set.getString(2), set.getString(3));
+
+        return w;
+    }
+
     public static String[][] getTimeTable(String class_id) throws SQLException {
+        if(connection == null)
+            connect();
+
         String[][] arr = new String[6][7];
 
         int j = 0;
@@ -73,13 +90,15 @@ public class DatabaseManager {
             ResultSet set = statement.executeQuery("SELECT * " +
                     "FROM " + arr[i]);
             while (set.next()) {
-                users.add(
-                        new User(set.getString(1),
+                User s = new User(set.getString(1),
                                 set.getString(2),
                                 set.getString(3),
                                 set.getString(4),
-                                arr1[i])
-                );
+                                arr1[i]);
+                if(s.getUserType() == UserType.STUDENT)
+                    s.setClass_id(getGrade(s.getId()));
+
+                users.add(s);
             }
         }
     }
@@ -93,5 +112,9 @@ public class DatabaseManager {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private void changeTimeTable(TimeTable time){
+
     }
 }
