@@ -28,7 +28,7 @@
 			<div class="form-group">
 			    <form action="/Login" method="POST">
 				    <div class="input-group top">
-  					    <span class="input-group-addon" id="spanny">ST</span>
+  					    <span class="input-group-addon" id="spanny">st</span>
   					    <input type="text" class="form-control" name="id" placeholder="ID" aria-describedby="basic-addon1" autofocus value=${username}>
 				    </div>
   				        <input class="form-control top" type="password" placeholder="Password" name="password">
@@ -48,7 +48,7 @@
 	<script>
        function MyFunction(){
             var e = document.getElementById("selected_items");
-            var arr = ["ST", "TH"];
+            var arr = ["st", "th"];
             var i = document.getElementById("spanny");
            	i.innerHTML = arr[e.selectedIndex];
        }
