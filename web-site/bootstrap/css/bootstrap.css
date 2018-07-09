@@ -5835,8 +5835,8 @@ button.list-group-item-danger.active:focus {
   border-radius: 6px;
 }
 .well-sm {
-  padding: 9px;
-  border-radius: 3px;
+  padding: 0px;
+  border-radius: 0px;
 }
 .close {
   float: right;
