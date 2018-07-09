@@ -14,6 +14,11 @@
 	<link href="main.css" rel="stylesheet">
 	<link href="icon.png" type="image/png" rel="shortcut icon">
 	
+	<style>
+		img {
+			margin: auto!important;
+		}
+	</style>
 </head>
 <body style="padding-top: 70px">
 	<div class="container container-big">
@@ -63,37 +68,14 @@
  		<div class="container">
  			<div class="row">
  				<div class="leftPane col-md-6 col-sm-12">
- 					<h3>Timetable for today</h3>
- 					<table class="table border-bottom">
-						<tr>
-							<th>#</th>
-							<th>Subject</th>
-						</tr>
- 						<tr>
-							<td>1</td>
-							<td>Math</td>
-						</tr>
-						<tr>
-							<td>2</td>
-							<td>Geography</td>
-						</tr>
-						<tr>
-							<td>3</td>
-							<td>English</td>
-						</tr>
-						<tr>
-							<td>4</td>
-							<td>Computer Science</td>
-						</tr>
-						<tr>
-							<td>5</td>
-							<td>PE</td>
-						</tr>
-						<tr>
-							<td>6</td>
-							<td>History</td>
-						</tr>
- 					</table>
+ 					<h3 style="margin-bottom: 25px;">Student's name_and_ surname</h3>
+ 					<div class="thumbnail" style="margin: auto; width: 300px; height: 370px;">
+						  <img src="icon.svg" alt="Students photo">
+						  <div class="caption">
+							<h3 style="text-align: center">Class: 9E</h3>
+						  </div>
+   				 	</div>
+ 					<h1 class=" border-bottom"></h1>
  					<h3>Yesterday marks</h3>
  					<table class="table sm-row">
  						<tr>
@@ -135,7 +117,7 @@
  				</div>
  				<div class="rightPane col-md-6 col-sm-12">
  					<h3>Homework for today</h3>
- 					<div class="table-responsive">
+ 					<div class="table-responsive border-bottom">
 						<table class="table" >
 							<tr style="font-weight: bold">
 								<td>Subject</td>
@@ -163,6 +145,37 @@
 							</div>
 						</div>
 					</div>
+					<h3>Timetable for today</h3>
+ 					<table class="table">
+						<tr>
+							<th>#</th>
+							<th>Subject</th>
+						</tr>
+ 						<tr>
+							<td>1</td>
+							<td>Math</td>
+						</tr>
+						<tr>
+							<td>2</td>
+							<td>Geography</td>
+						</tr>
+						<tr>
+							<td>3</td>
+							<td>English</td>
+						</tr>
+						<tr>
+							<td>4</td>
+							<td>Computer Science</td>
+						</tr>
+						<tr>
+							<td>5</td>
+							<td>PE</td>
+						</tr>
+						<tr>
+							<td>6</td>
+							<td>History</td>
+						</tr>
+ 					</table>
  				</div>
  			</div>
  		</div>
