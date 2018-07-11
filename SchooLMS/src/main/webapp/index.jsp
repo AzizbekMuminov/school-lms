@@ -1,3 +1,4 @@
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -29,7 +30,7 @@
 			    <form action="/Login" method="POST">
 				    <div class="input-group top">
   					    <span class="input-group-addon" id="spanny">ST</span>
-  					    <input type="text" class="form-control" name="id" placeholder="ID" aria-describedby="basic-addon1" autofocus value=${username}>
+  					    <input type="text" class="form-control" name="id" placeholder="ID" aria-describedby="basic-addon1" autofocus value="${username}">
 				    </div>
   				        <input class="form-control top" type="password" placeholder="Password" name="password">
   				        <select class="form-control top" id="selected_items" onchange="MyFunction()" name="user_type">

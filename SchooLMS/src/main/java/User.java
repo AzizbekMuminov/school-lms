@@ -1,25 +1,15 @@
-public class User{
+public abstract class User{
     private String id;
     private String password;
     private String name;
     private String surname;
-    private String class_id;
     private UserType userType;
 
-    public User(String id, String password, String name, String surname,UserType userType) {
+    public User(String id, String password, String name, String surname, UserType userType) {
         this.id = id;
         this.password = password;
         this.name = name;
         this.surname = surname;
-        this.userType = userType;
-    }
-
-    public User(String id, String password, String name, String surname, UserType userType, String class_id) {
-        this.id = id;
-        this.password = password;
-        this.name = name;
-        this.surname = surname;
-        this.class_id = class_id;
         this.userType = userType;
     }
 
@@ -57,14 +47,6 @@ public class User{
 
     public void setSurname(String surname) {
         this.surname = surname;
-    }
-
-    public String getClass_id() {
-        return class_id;
-    }
-
-    public void setClass_id(String class_id) {
-        this.class_id = class_id;
     }
 
     public UserType getUserType() {

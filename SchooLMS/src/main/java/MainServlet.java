@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import static java.lang.System.out;
 
@@ -27,13 +28,12 @@ public class MainServlet extends HttpServlet {
         try{
             u = DatabaseManager.login(id, password, arr[user_type-1]);
             if(u == null){
-                request.setAttribute("false", false);
                 request.setAttribute("username", id);
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
             }else
             {
                 request.setAttribute("user", u);
-                request.getRequestDispatcher("/User_Servlet").forward(request, response);
+                request.getRequestDispatcher("/cabinet.jsp").forward(request, response);
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -1,5 +1,10 @@
-DatabaseManager.class
-Starter.class
 UserType.class
-MainServlet.class
+UserServlet.class
 User.class
+Homework.class
+DatabaseManager.class
+MyClass.class
+TimeTable.class
+Student.class
+Teacher.class
+MainServlet.class

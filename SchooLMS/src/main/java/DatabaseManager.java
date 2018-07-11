@@ -1,41 +1,95 @@
-import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DatabaseManager {
 
     private static String url="jdbc:sqlite:C:\\Users\\Windows10\\Desktop\\SchooLMS\\DataBase\\DB.db";
-    private static Connection connection;
-    private static ArrayList<User> users;
+    private static volatile Connection connection;
+    private static ArrayList<Student> students;
+    private static ArrayList<Teacher> teachers;
+    private static HashMap<String, ArrayList<Homework>> homeworks;
+    private static ArrayList<MyClass> classes;
 
     public static User login(String id, String password, UserType userType) throws SQLException {
 
         //if there's no users
-        if(users == null)
+        if(students == null || teachers == null)
             updateUsers();
 
-        for (User u: users) {
-            if(u.getUserType() == userType)
-                if(u.login(id, password)) {
-                    return u;
+        if(userType == UserType.STUDENT){
+            for (Student s: students) {
+                if(s.login(id, password)) {
+                    return s;
                 }
+            }
+        }else{
+            for (Teacher s: teachers) {
+                if(s.login(id, password)) {
+                    return s;
+                }
+            }
         }
         //if there's no Student
         return null;
     }
 
-    public static Homework getHomework(String subject_id) throws SQLException {
+    private void updateDB() throws SQLException {
+        updateUsers();
+        updateClasses();
+        updateHomeworks();
+    }
+
+    public static ArrayList<Homework> getHomework(String class_id) throws SQLException {
+        if(homeworks == null || homeworks.isEmpty())
+            updateHomeworks();
+
+        return homeworks.get(class_id);
+    }
+
+    private static void updateHomeworks() throws SQLException {
         if(connection == null)
             connect();
+        if(classes == null || classes.isEmpty())
+            updateClasses();
 
-        Homework w;
+        homeworks = new HashMap<>();
         Statement st = connection.createStatement();
-        ResultSet set = st.executeQuery("SELECT *" +
-                "FROM Homeworks" +
-                "WHERE subject_id = \"" + subject_id + "\"");
-        w = new Homework(set.getString(1), set.getString(2), set.getString(3));
 
-        return w;
+        for (int i =0; i < classes.size(); i++) {
+            String s = classes.get(i).getClass_id();
+            ArrayList<Homework> hw = new ArrayList<>();
+            ResultSet set = st.executeQuery("SELECT * FROM Homeworks " +
+                    "WHERE class_id = \"" + s + "\"");
+
+            while(set.next()){
+                hw.add(new Homework(set.getString("date"),
+                        set.getString("subject_id"),
+                        set.getString("homework"), s));
+            }
+
+            homeworks.put(s, hw);
+        }
+
+    }
+
+    private static void updateClasses() throws SQLException {
+        Statement st = connection.createStatement();
+        classes = new ArrayList<>();
+        ResultSet set = st.executeQuery("SELECT *" +
+                "FROM Classes");
+        ArrayList<User> u = new ArrayList<>();
+
+        while (set.next()){
+            String s = set.getString("class_id");
+            classes.add(new MyClass(s,
+                    getTimeTable(s),
+                    set.getString("teacher_id")));
+
+        }
+
+        set = st.executeQuery("SELECT * " +
+                "FROM  Takes ");
     }
 
     public static String[][] getTimeTable(String class_id) throws SQLException {
@@ -45,8 +99,8 @@ public class DatabaseManager {
         String[][] arr = new String[6][7];
 
         int j = 0;
-        Statement statement = connection.createStatement();
-        ResultSet set = statement.executeQuery("SELECT * " +
+        Statement st = connection.createStatement();
+        ResultSet set = st.executeQuery("SELECT * " +
                 "FROM Time_table " +
                 "WHERE class_id = \"" + class_id + "\"");
 
@@ -61,47 +115,62 @@ public class DatabaseManager {
     }
 
 
-    public static String getGrade(String student_id) throws SQLException {
+    public static MyClass getGrade(String student_id) throws SQLException {
         //returns the class
-        if(users == null)
-            updateUsers();
-
+        if(classes == null || classes.isEmpty())
+            updateClasses();
+        String s;
         Statement st = connection.createStatement();
-        ResultSet set = st.executeQuery("SELECT class_id " +
-                "FROM Takes " +
-                "WHERE student_id = \"" + student_id +"\"");
 
-        return set.getString("class_id");
+
+
+        return null;
     }
 
     private static void updateUsers() throws SQLException {
-
-        //if there's no connection with DB
         if(connection == null)
             connect();
+        updateTeacher();
+        updateStudents();
+    }
 
-        users = new ArrayList<>();
-        String arr[] = {"Students", "Teachers"};
-        UserType arr1[] = {UserType.STUDENT, UserType.TEACHER};
-        Statement statement = connection.createStatement();
+    private static void updateStudents() throws SQLException {
+        Statement st = connection.createStatement();
+        students = new ArrayList<>();
 
-        //little bit complicated
-        for(int i = 0; i < 2; i++) {
-            ResultSet set = statement.executeQuery("SELECT * " +
-                    "FROM " + arr[i]);
+        try (ResultSet set = st.executeQuery("SELECT * FROM Students")){
             while (set.next()) {
-                User s = new User(set.getString(1),
-                                set.getString(2),
-                                set.getString(3),
-                                set.getString(4),
-                                arr1[i]);
-                if(s.getUserType() == UserType.STUDENT)
-                    s.setClass_id(getGrade(s.getId()));
+                String s = set.getString("student_id");
+                System.out.println(s + " if it works");
 
-                users.add(s);
+                students.add(
+                        new Student(s,
+                                set.getString("password"),
+                                set.getString("name"),
+                                set.getString("surname"),
+                                set.getString("photo_directory"))
+                );
             }
         }
     }
+
+    private static void updateTeacher() throws SQLException {
+        Statement st = connection.createStatement();
+        teachers = new ArrayList<>();
+
+        try (ResultSet set = st.executeQuery("SELECT * FROM Teachers")) {
+            while (set.next()) {
+                String s = set.getString("teacher_id");
+                teachers.add(
+                        new Teacher(s,
+                                set.getString("password"),
+                                set.getString("name"),
+                                set.getString("surname"))
+                );
+            }
+        }
+    }
+
 
     private static void connect() throws SQLException {
         try {
