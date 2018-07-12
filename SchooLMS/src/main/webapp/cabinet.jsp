@@ -46,7 +46,7 @@
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-	        <li><a href="#">Student's name</a></li>
+	        <li><a href="#">${user.name}</a></li>
 	        <li><a href="#">Sign out</a></li>
           </ul>
 	      	<form class="navbar-form navbar-right">
@@ -71,11 +71,11 @@
  		<div class="container">
  			<div class="row">
  				<div class="leftPane col-md-6 col-sm-12">
- 					<h3 style="margin-bottom: 25px;">Student's name_and_ surname</h3>
+ 					<h3 style="margin-bottom: 25px;">${user.name} ${user.surname}</h3>
  					<div class="thumbnail" style="margin: auto; width: 300px; height: 370px;">
-						  <img src="icon.svg" alt="Students photo">
+						  <img src="${user.photo_directory}" alt="Students photo">
 						  <div class="caption">
-							<h3 style="text-align: center">Class: 9E</h3>
+							<h3 style="text-align: center">${user.class_id}</h3>
 						  </div>
    				 	</div>
  					<h1 class=" border-bottom"></h1>
@@ -86,36 +86,13 @@
 							<th>Subject</th>
 							<th>Mark</th>
 						</tr>
- 						<tr>
-							<td>1</td>
-							<td>Math</td>
-							<td>4</td>
-						</tr>
-						<tr>
-							<td>2</td>
-							<td>Geography</td>
-							<td>5</td>
-						</tr>
-						<tr>
-							<td>3</td>
-							<td>English</td>
-							<td>3</td>
-						</tr>
-						<tr>
-							<td>4</td>
-							<td>Computer Science</td>
-							<td>5</td>
-						</tr>
-						<tr>
-							<td>5</td>
-							<td>PE</td>
-							<td>5</td>
-						</tr>
-						<tr>
-							<td>6</td>
-							<td>History</td>
-							<td>4</td>
-						</tr>
+ 						<c:forEach varStatus="status" items="${arr_yesterday}" var="subject_yest">
+ 							<tr>
+ 								<td>${status.index + 1}</td>
+ 								<td><c:out value = "${subject_yest}"/></td>
+ 								<td></td>
+ 							</tr>
+ 						</c:forEach>
  					</table>
  				</div>
  				<div class="rightPane col-md-6 col-sm-12">
@@ -126,10 +103,12 @@
 								<td>Subject</td>
 								<td>Homework</td>
 							</tr>
-							<tr>
-								<td>Math</td>
-								<td><a href="#myModal" data-toggle="modal">Some text</a></td>
-							</tr>
+							<c:forEach items="${homework}" var="hw">
+								<tr>
+									<td>${hw.subject_id}</td>
+									<td><a href="#myModal" data-toggle="modal">${hw.homework}</a></td>
+								</tr>
+							</c:forEach>
 						</table>
 					</div>
 					<div id="myModal" class="modal fade" role="dialog" style="margin-top: 70px">
@@ -154,7 +133,12 @@
 							<th>#</th>
 							<th>Subject</th>
 						</tr>
- 					    <%DatabaseManager.getGrade(user.student_id).class_id%>
+						<c:forEach items="${arr_today}" var="r" varStatus="status1">
+							<tr>
+								<td>${status1.index + 1}</td>
+								<td><c:out value = "${r}"/></td>
+							</tr>
+						</c:forEach>
  					</table>
  				</div>
  			</div>

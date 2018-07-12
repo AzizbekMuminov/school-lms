@@ -1,29 +1,24 @@
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Teacher extends User{
 
-    private ArrayList<String> subject_id;
-    private String class_id;
+    private HashMap<String, String> subjects;
 
-    public ArrayList<String> getSubject_id() {
-        return subject_id;
+    public HashMap<String, String> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(HashMap<String, String> subjects) {
+        this.subjects = subjects;
     }
 
     public Teacher(String id, String password, String name, String surname) {
         super(id, password, name, surname, UserType.STUDENT);
+        subjects = new HashMap<>();
     }
 
-    public void setSubject_id(ArrayList<String> subject_id) {
-        this.subject_id = subject_id;
+    public void addSubject(String subject_id, String class_id){
+        subjects.put(subject_id, class_id);
     }
-
-    public String getClass_id() {
-        return class_id;
-    }
-
-    public void setClass_id(String class_id) {
-        this.class_id = class_id;
-    }
-
 
 }

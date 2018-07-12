@@ -3,10 +3,11 @@ public class Student extends User{
     private String class_id;
     private String photo_directory;
 
-    public Student(String id, String password, String name, String surname, String photo_directory) {
+    public Student(String id, String password, String name, String surname, String photo_directory, String class_id) {
         super(id, password, name, surname, UserType.STUDENT);
         this.class_id = class_id;
         this.photo_directory = photo_directory;
+        this.class_id = class_id;
     }
 
 

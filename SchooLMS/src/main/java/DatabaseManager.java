@@ -1,5 +1,6 @@
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 public class DatabaseManager {
@@ -10,6 +11,7 @@ public class DatabaseManager {
     private static ArrayList<Teacher> teachers;
     private static HashMap<String, ArrayList<Homework>> homeworks;
     private static ArrayList<MyClass> classes;
+    private static HashMap<String, String[][]> timeTable;
 
     public static User login(String id, String password, UserType userType) throws SQLException {
 
@@ -47,6 +49,21 @@ public class DatabaseManager {
         return homeworks.get(class_id);
     }
 
+    public static ArrayList<Homework> getHomework(String class_id, Calendar d) throws SQLException {
+        if(homeworks == null)
+            updateHomeworks();
+
+        ArrayList<Homework> hw = new ArrayList<>();
+
+        for (Homework h: homeworks.get(class_id)) {
+            System.out.println(class_id + " " + h.getDate() + " " +  d);
+            if(h.isThatDate(d))
+                hw.add(h);
+        }
+
+        return hw;
+    }
+
     private static void updateHomeworks() throws SQLException {
         if(connection == null)
             connect();
@@ -74,6 +91,10 @@ public class DatabaseManager {
     }
 
     private static void updateClasses() throws SQLException {
+        if(connection == null)
+            connect();
+        if(timeTable == null || timeTable.isEmpty())
+            updateTimeTable();
         Statement st = connection.createStatement();
         classes = new ArrayList<>();
         ResultSet set = st.executeQuery("SELECT *" +
@@ -95,23 +116,32 @@ public class DatabaseManager {
     public static String[][] getTimeTable(String class_id) throws SQLException {
         if(connection == null)
             connect();
+        if(timeTable == null || timeTable.isEmpty())
+            updateTimeTable();
 
-        String[][] arr = new String[6][7];
 
-        int j = 0;
+        return timeTable.get(class_id);
+
+    }
+
+    private static void updateTimeTable() throws SQLException {
+        timeTable = new HashMap<>();
         Statement st = connection.createStatement();
         ResultSet set = st.executeQuery("SELECT * " +
-                "FROM Time_table " +
-                "WHERE class_id = \"" + class_id + "\"");
+                "FROM Time_table ");
 
-        for(int i = 0; i < 42; i++){
-            arr[j][i % 7] = set.getString(i+2);
+        do {
+            int j = 0;
+            String[][] arr = new String[6][7];
+            for (int i = 0; i < 42; i++) {
+                if (i % 7 == 0 && i != 0)
+                    j++;
 
-            if(i % 7 == 0 && i != 0)
-                j++;
-        }
+                arr[j][i % 7] = set.getString(i + 2);
 
-        return arr;
+            }
+            timeTable.put(set.getString(1), arr);
+        }while (set.next());
     }
 
 
@@ -138,7 +168,7 @@ public class DatabaseManager {
         Statement st = connection.createStatement();
         students = new ArrayList<>();
 
-        try (ResultSet set = st.executeQuery("SELECT * FROM Students")){
+        try (ResultSet set = st.executeQuery("SELECT * FROM Students NATURAL JOIN Takes")){
             while (set.next()) {
                 String s = set.getString("student_id");
                 System.out.println(s + " if it works");
@@ -148,7 +178,8 @@ public class DatabaseManager {
                                 set.getString("password"),
                                 set.getString("name"),
                                 set.getString("surname"),
-                                set.getString("photo_directory"))
+                                set.getString("photo_directory"),
+                                set.getString("class_id"))
                 );
             }
         }
@@ -169,6 +200,21 @@ public class DatabaseManager {
                 );
             }
         }
+        st = connection.createStatement();
+        ResultSet set = st.executeQuery("SELECT * FROM Teaches");
+
+        while(set.next()){
+            String s = set.getString("teacher_id");
+            String s1 = set.getString("class_id");
+            String s2 = set.getString("subject_id");
+
+            for (Teacher t: teachers) {
+                if(t.getId().equals(s)){
+                    t.addSubject(s2, s1);
+                }
+            }
+        }
+
     }
 
 
