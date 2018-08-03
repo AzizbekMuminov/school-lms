@@ -1,10 +1,6 @@
 # Hello everybody!
 
-This is repository of project **School LMS**.
-Our :octocat: team: 
-
-_Aslkhon Khoshimkhojaev_
-
-_Muso Ismailov_
+That's a fork of project SchooLMS(i really don't know will i continue this project)
+:octocat: team: 
 
 _Azizbek Muminov_
